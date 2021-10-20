@@ -58,6 +58,6 @@ io.on('connection', (socket) => {
 
 const port = process.env.Port || 3000;
 server.listen(port, () => {
+  // MongooseConnect();
   console.log(`Example app listening at http://localhost:${port}`);
-  MongooseConnect();
 });
