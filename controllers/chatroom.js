@@ -4,21 +4,22 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Chatroom = require("../models/chatroom");
 
+
+
+
 //create chatroom
 exports.createChatRoom = AsyncHandler(async (req, res, next) => {
-    const { name,admin,groupIcon,members,lastMessageBy} = req.body;
+    const { name,groupInfo,lastMessageBy} = req.body;
     const groupName = await Chatroom.findOne({ name })
-    const allMembers = stringToObj(members)
     if (groupName)
     {
       return res.status(404).json({ status: 'error', error: 'This groupName already exist with a group please try another one' })
     }
     const chatroom = new Chatroom({
-    name,
-    admin,
-    members:allMembers,
+    name ,
+    groupInfo,
     lastMessageBy,
-    groupIcon,
+    
 
   });
   //for single file upload
@@ -32,9 +33,9 @@ exports.createChatRoom = AsyncHandler(async (req, res, next) => {
 
 //get chatRooms
 exports.getChatRooms = AsyncHandler(async (req, res, next) => {
-  let user = req.user ;  
+  
   //in below line we are putting one condition to check weather the chat is one to one or more than 2 persons.
-    const chats = await Chatroom.find({ members :{$in :[user._id]}}) .populate([{path:'members' , select:'name'},{path:'lastMessageBy' ,select:'name'},{path:'admin' , select:'name'}])
+    const chats = await Chatroom.find({}) .populate([{path:'name' , select:'name'},{path:'groupInfo' , populate:[{path:'groupMembers', select: 'fullName'},{path: 'admin',select: 'fullName'}]}])
     res.status(200).json({ data: chats, message: "All ChatRooms", success: true });
   });
 
@@ -46,13 +47,13 @@ exports.deleteChatRoom = AsyncHandler(async (req, res, next) => {
 });
 
 
-function stringToObj(data) {
-  try {
-    if( typeof data === 'string')
-     return JSON.parse(data)
-     else return data
-  } catch (error) {
-    throw new Error("Pass a valid string ")
-  }
+// function stringToObj(data) {
+//   try {
+//     if( typeof data === 'string')
+//      return JSON.parse(data)
+//      else return data
+//   } catch (error) {
+//     throw new Error("Pass a valid string ")
+//   }
    
-}
+// }

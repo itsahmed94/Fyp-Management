@@ -5,20 +5,20 @@ const Schema = mongoose.Schema;
 const chatroomSchema = new Schema(
   {
     name: {
-      type: String,
-      // required: "Name is required!",
-      default: null,
-    },
-
-    groupIcon: {
-      type: String,
-      default: null,
-    },
-
-    admin: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      default: null,
+      ref: "Proposal",
+   
+    },
+
+    // groupIcon: {
+    //   type: String,
+    //   default: null,
+    // },
+
+    groupInfo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "fypGroup",
+      
     },
     lastMessage : {
       type : String, 
@@ -36,12 +36,7 @@ const chatroomSchema = new Schema(
       default : Date.now,
     },
 
-    members: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+
   },
   { timestamps: true }
 );
