@@ -22,7 +22,7 @@ exports.createProposal = AsyncHandler(async (req, res, next) => {
         studentGroup,
         uploadDoc,
         year,
-        status
+        status,
 
   });
   //for single file upload
