@@ -7,6 +7,7 @@ const chatroomSchema = new Schema(
     name: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Proposal",
+      default: null,
    
     },
 
@@ -18,6 +19,8 @@ const chatroomSchema = new Schema(
     groupInfo: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "fypGroup",
+      default: null,
+
       
     },
     lastMessage : {
@@ -35,7 +38,16 @@ const chatroomSchema = new Schema(
       type : Date,
       default : Date.now,
     },
-
+    
+    members: {
+      type :[
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+      ],
+      default : []
+    } 
 
   },
   { timestamps: true }

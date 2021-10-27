@@ -45,7 +45,7 @@ exports.createMessage = AsyncHandler(async (req, res, next) => {
   await messages.save();
   await chatRoom.save();
   if(socket) {
-    const toSend  = chatRoom .members 
+    const toSend  = chatRoom.members 
     toSend.filter(uid => uid !== user).map( uid => {
       socket.emit(`${uid}-message`,req.body)
     })
@@ -60,8 +60,7 @@ exports.getMessages = AsyncHandler(async (req, res, next) => {
   // const messages = await Message.find();
   let user = req.user;
   const { id: chatroom } = req.params;
-
-  const messages = await Message.find({ chatroom }).populate({path: "user",select: "name",});
+  const messages = await Message.find({ chatroom}).populate([{path: 'chatroom',populate:{path:'name', select:'name'},select:'name '},{path: 'user', select: 'fullName'}]);
 
   // if(!messages)
   // {

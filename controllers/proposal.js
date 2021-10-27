@@ -33,7 +33,8 @@ exports.createProposal = AsyncHandler(async (req, res, next) => {
     res.status(200).json({ data: proposal, message: "Request Submitted", success: true });
   });
 
-//, proposalStatus: {$ne: 'true'}
+
+  //, proposalStatus: {$ne: 'true'}
 //get proposals
 exports.getProposals = AsyncHandler(async (req, res, next) => {
     const { id: SupervisorName} = req.params;
@@ -41,6 +42,6 @@ exports.getProposals = AsyncHandler(async (req, res, next) => {
     const {year}=req.query
     let query ={}
     if(year) query.year = year
-    const proposals = await Proposal.find({SupervisorName, ...query}).select('title name description').populate({path: 'studentGroup', select: 'groupMembers',populate:[{path:'groupMembers'}]})
+    const proposals = await Proposal.find({SupervisorName, ...query}).select('title name description status').populate({path: 'studentGroup', select: 'groupMembers',populate:[{path:'groupMembers'}]})
     res.status(200).json({ data: proposals, message: "All Proposals", success: true });
   });

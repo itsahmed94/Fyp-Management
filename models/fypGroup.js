@@ -13,6 +13,11 @@ const fypGroupSchema = new Schema({
     admin: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+
+    supervisor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     }
 
    

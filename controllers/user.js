@@ -17,22 +17,31 @@ exports.userRegister = AsyncHandler(async (req, res, next) => {
     uploadImage,
   } = req.body;
   const userName = await User.findOne({ fullName });
+
+  if (!fullName){
+    return res.status(404).json({
+      status: "error",
+      error: "Please add a username",
+    });
+    
+  }
   if (userName) {
     return res.status(404).json({
       status: "error",
       error: "This username already exist please try another one",
     });
   }
-  if (!fullName || typeof fullName !== "string") {
+  if (typeof fullName !== "string") {
     return res.json({ status: "error", error: "Invalid username" });
   }
   if (!plainTextPassword || typeof plainTextPassword !== "string") {
     return res.json({ status: "error", error: "Invalid password" });
   }
-  if (plainTextPassword.length < 5) {
+
+  if (plainTextPassword.length < 8) {
     return res.status(403).json({
       status: "error",
-      error: "Password too small. Should be atleast 6 characters",
+      error: "Password too small. Should be atleast 8 characters",
     });
   }
 
@@ -115,9 +124,15 @@ exports.changePassword = AsyncHandler(async (req, res, next) => {
   res.status(200).json({ message: "password changed", success: true });
 });
 
-//get users
-exports.getUsers = AsyncHandler(async (req, res, next) => {
+//get students
+exports.getStudents = AsyncHandler(async (req, res, next) => {
   const users = await User.find({ role: "student" });
+  res.status(200).json({ data: users, message: "All Students", success: true });
+});
+
+//get supervisors
+exports.getSupervisors = AsyncHandler(async (req, res, next) => {
+  const users = await User.find({ role: "supervisor" });
   res.status(200).json({ data: users, message: "All Students", success: true });
 });
 

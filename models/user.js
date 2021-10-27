@@ -6,13 +6,14 @@ const userSchema = new Schema(
   {
     fullName: {
       type: String,
-      required: [true, "error"],
+      // required: [true, "error"],
       unique: true,
     },
 
     studentId: {
       type: Number,
       default: null,
+      unique: [true, "error"],
     },
 
     password: {

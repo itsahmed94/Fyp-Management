@@ -8,7 +8,9 @@ const messageSchema = new Schema({
       type: mongoose.Schema.Types.ObjectId,
       required: "Chatroom is required!",
       ref: "Chatroom",
+      default: null
     },
+    
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: "Chatroom is required!",

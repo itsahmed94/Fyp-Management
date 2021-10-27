@@ -3,9 +3,10 @@ const {userRegister} = require('../controllers/user')
 const router = express.Router()
 const userRoute = require('./user')
 const chatroomRoute = require('./chatroom')
+const privateChatRoute = require('./privateChat')
 const messageRoute = require('./message')
 const proposalRoute = require('./proposal')
-const proposalStatusRoute = require('./proposalStatus')
+// const proposalStatusRoute = require('./proposalStatus')
 const groupRoute = require('./fypGroup') 
 
 
@@ -26,9 +27,11 @@ router.use('/chatroom',chatroomRoute)
 
 router.use('/message',messageRoute)
 
+router.use('/chat',privateChatRoute)
+
 router.use('/proposal',proposalRoute)
 
-router.use('/proposalStatus',proposalStatusRoute)
+// router.use('/proposalStatus',proposalStatusRoute)
 
 router.use('/group',groupRoute)
 

@@ -50,7 +50,8 @@ const proposalSchema = new Schema(
 
     status : {
         type: String,
-        default: null,
+        enum:["request" , "reject", "approved","completed"],
+        default: "request",
 
     },
 
