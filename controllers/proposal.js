@@ -42,6 +42,6 @@ exports.getProposals = AsyncHandler(async (req, res, next) => {
     const {year}=req.query
     let query ={}
     if(year) query.year = year
-    const proposals = await Proposal.find({SupervisorName, ...query}).select('title name description status').populate({path: 'studentGroup', select: 'groupMembers',populate:[{path:'groupMembers'}]})
+    const proposals = await Proposal.find({SupervisorName, ...query}).select('title name description status').populate({path: 'studentGroup', select: 'groupMembers',populate:[{path:'groupMembers'},{path:'admin'},{path:'supervisor'}]})
     res.status(200).json({ data: proposals, message: "All Proposals", success: true });
   });

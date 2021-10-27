@@ -38,7 +38,7 @@ exports.getChatRooms = AsyncHandler(async (req, res, next) => {
   const user = req.user ;
   const fypGroups =  await FypGroup.find({groupMembers :{$in : [user._id]}})
   //in below line we are putting one condition to check weather the chat is one to one or more than 2 persons.
-    const chats = await Chatroom.find({ $or  :  [{groupInfo :{$in: fypGroups.map(d=>d._id)}},{members:{$in:[user._id]}} ]}) .populate([{path:'name' , select:'name'},{path:'lastMessageBy' , select:'fullName'},{path: 'members', select: 'fullName'},{path:'groupInfo' , populate:[{path:'groupMembers', select: 'fullName'},{path: 'admin',select: 'fullName'}]}])
+    const chats = await Chatroom.find({ $or  :  [{groupInfo :{$in: fypGroups.map(d=>d._id)}},{members:{$in:[user._id]}}]}) .populate([{path:'name' , select:'name'},{path:'lastMessageBy' , select:'fullName'},{path: 'members', select: 'fullName'},{path:'groupInfo' , populate:[{path:'groupMembers', select: 'fullName'},{path: 'admin',select: 'fullName'},{path: 'supervisor',select: 'fullName'}]}])
     res.status(200).json({ data: chats, message: "All ChatRooms", success: true });
   });
 

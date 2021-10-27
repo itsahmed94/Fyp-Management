@@ -7,7 +7,7 @@ const ErrorResponse = require("../utils/errorResponse");
 
 //create student group
 exports.createGroup = AsyncHandler(async (req, res, next) => {
-    const {groupMembers, admin} = req.body;
+    const {groupMembers, admin, supervisor} = req.body;
 
         if (typeof groupMembers === 'object' && groupMembers.length !==4) {
           return res.status(404).json({status: 'error', error: 'Please select at least 4 members for groups'})
@@ -28,13 +28,14 @@ exports.createGroup = AsyncHandler(async (req, res, next) => {
             
         }
 
-    //     const group = new fypGroup({
-//         groupMembers,
-//         admin,
+        const groupMem = new fypGroup({
+        groupMembers,
+        admin,
+        supervisor
 
-//   });
-//     await group.save();
-    res.status(200).json({ data: {}, message: "Request Submitted", success: true });
+  });
+    await groupMem.save();
+    res.status(200).json({ data: groupMem, message: "Request Submitted", success: true });
   });
 
   
