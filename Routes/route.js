@@ -18,6 +18,7 @@ router.get('/about', (req, res) => {
   res.render('about', {title:'about'})
  })
 
+router.use('/admin',userRoute)
 
 router.use('/student',userRoute)
 

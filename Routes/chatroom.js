@@ -4,10 +4,11 @@ const {createChatRoom, getChatRooms, deleteChatRoom} = require ('../controllers/
 const { protect, authorize } = require('../middlewares/auth')
 const upload = require('../middlewares/fileupload')
 
-router.route('/').post(upload.single('groupIcon'),protect,authorize("student"), createChatRoom).get(protect,authorize("student", "supervisor"), getChatRooms)
+router.route('/').post(upload.single('groupIcon'),protect,authorize("student"), createChatRoom).get(protect,authorize("student", "supervisor","admin"), getChatRooms)
 
 
-router.route('/:id').delete(protect,authorize("student","supervisor"),deleteChatRoom).get(protect,authorize("student", "supervisor"), getChatRooms)
+router.route('/:id').delete(protect,authorize("student","supervisor"),deleteChatRoom).get(protect,authorize("student", "supervisor","admin"), getChatRooms)
+
 
 
 

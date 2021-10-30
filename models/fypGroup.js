@@ -23,8 +23,21 @@ const fypGroupSchema = new Schema(
       ref: "User",
     },
   },
-  { timestamps: true }
+  { timestamps: true,
+    toJSON:{virtuals:true },
+    toObject:{virtuals:true }
+
+  }
 );
+
+fypGroupSchema.virtual('proposal',{
+  ref:'Proposal',
+  justOne:true ,
+  localField:'_id',
+
+  foreignField:'studentGroup'
+})
+
 
 const fypGroup = new mongoose.model("fypGroup", fypGroupSchema);
 

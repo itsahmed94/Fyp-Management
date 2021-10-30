@@ -22,7 +22,7 @@ router.route('/:id').get(protect,authorize("student"),getUserById)
 
 router.route('/:id').delete(protect,authorize("student"),removeUser)
 
-router.route('/profile/setting/:id').patch(upload.single('uploadImage'),protect,authorize("student"),updateProfile)
+router.route('/profile/setting/:id').patch(upload.single('uploadImage'),protect,authorize("student","supervisor"),updateProfile)
 
 
 

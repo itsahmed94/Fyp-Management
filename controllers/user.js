@@ -16,8 +16,13 @@ exports.userRegister = AsyncHandler(async (req, res, next) => {
     role,
     uploadImage,
   } = req.body;
-  const userName = await User.findOne({ fullName });
+  
+  // const isAdmin = await User.findOne({role:  'admin'})
+  // if (isAdmin){
+  //   return res.status(404).json({status: "error" , error: "you cannot create more than one account for admin"});
+  // }
 
+  const userName = await User.findOne({email});
   if (!fullName){
     return res.status(404).json({
       status: "error",
@@ -28,7 +33,7 @@ exports.userRegister = AsyncHandler(async (req, res, next) => {
   if (userName) {
     return res.status(404).json({
       status: "error",
-      error: "This username already exist please try another one",
+      error: "This user already exist with this email please try another one",
     });
   }
   if (typeof fullName !== "string") {
@@ -148,7 +153,7 @@ exports.getUserById = AsyncHandler(async (req, res, next) => {
 //update Profile
 exports.updateProfile = AsyncHandler(async (req, res, next) => {
   const updatedProfile = await User.updateOne(
-    { _id: req.params.id },{$set: {fullName: req.body.fullName,email: req.body.email,uploadImage: req.body.uploadImage,}});
+    { _id: req.params.id },{$set: {fullName: req.body.fullName,uploadImage: req.body.uploadImage,}});
   res.status(200).json({data: updatedProfile,message: "Profile has been updated",success: true,});
 });
 

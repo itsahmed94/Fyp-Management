@@ -10,7 +10,7 @@ const { protect,authorize } = require('../middlewares/auth')
 
 router.route('/').post(upload.array('fileUpload[]'),protect,authorize("student", "supervisor"),createMessage).delete(protect,authorize("student", "supervisor"),deleteAllMessage)
 
-router.route('/:id').get(protect,authorize("student", "supervisor"),getMessages).delete(protect,authorize("student", "supervisor"),deleteMessage)
+router.route('/:id').get(protect,authorize("student", "supervisor", "admin"),getMessages).delete(protect,authorize("student", "supervisor","admin"),deleteMessage)
 
 
 
