@@ -13,7 +13,7 @@ const messageSchema = new Schema({
     
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: "Chatroom is required!",
+      required: "User is required!",
       ref: "User",
     },
     message: {

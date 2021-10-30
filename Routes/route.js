@@ -18,11 +18,20 @@ router.get('/about', (req, res) => {
   res.render('about', {title:'about'})
  })
 
-router.use('/admin',userRoute)
+router.use('/admin',(req,res,next)=>{
+  req.type = 'admin'
+  next()
+}, userRoute)
 
-router.use('/student',userRoute)
+router.use('/student',(req,res,next)=>{
+  req.type = 'student'
+  next()
+},userRoute)
 
-router.use('/supervisor',userRoute)
+router.use('/supervisor',(req,res,next)=>{
+  req.type = 'supervisor'
+  next()
+},userRoute)
 
 router.use('/chatroom',chatroomRoute) 
 

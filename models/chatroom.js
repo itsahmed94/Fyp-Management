@@ -11,6 +11,17 @@ const chatroomSchema = new Schema(
    
     },
 
+    announcement : {
+      type : Boolean,
+      default : false,
+      
+    },
+
+    year : {
+      type: Number,
+      default : null,
+    },
+
     // groupIcon: {
     //   type: String,
     //   default: null,

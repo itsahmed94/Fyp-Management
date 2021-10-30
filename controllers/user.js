@@ -8,19 +8,21 @@ exports.JWT_SECRET = "sdjkfh8923yhjdksbfma@#*&&^@bhjg839ujkdhfjk";
 
 //register user
 exports.userRegister = AsyncHandler(async (req, res, next) => {
+  // console.log(req.type)
+  const role =req.type 
   const {
     fullName,
     password: plainTextPassword,
     studentId,
     email,
-    role,
     uploadImage,
   } = req.body;
   
-  // const isAdmin = await User.findOne({role:  'admin'})
-  // if (isAdmin){
-  //   return res.status(404).json({status: "error" , error: "you cannot create more than one account for admin"});
-  // }
+  if (role === 'admin'){
+    const isAdmin = await User.findOne({role:  'admin'})
+    if(isAdmin)
+    return res.status(404).json({status: "error" , error: "you cannot create more than one account for admin"});
+  }
 
   const userName = await User.findOne({email});
   if (!fullName){
@@ -30,25 +32,29 @@ exports.userRegister = AsyncHandler(async (req, res, next) => {
     });
     
   }
-  if (userName) {
+  else if (userName) {
     return res.status(404).json({
       status: "error",
       error: "This user already exist with this email please try another one",
     });
   }
-  if (typeof fullName !== "string") {
+  else if (typeof fullName !== "string") {
     return res.json({ status: "error", error: "Invalid username" });
   }
-  if (!plainTextPassword || typeof plainTextPassword !== "string") {
+  else if (!plainTextPassword || typeof plainTextPassword !== "string") {
     return res.json({ status: "error", error: "Invalid password" });
   }
 
-  if (plainTextPassword.length < 8) {
+  else if (plainTextPassword.length < 8) {
     return res.status(403).json({
       status: "error",
       error: "Password too small. Should be atleast 8 characters",
     });
   }
+//  if (userName.role === 'admin'){
+//     return res.status(404).json({status: "error" , error: "you cannot create more than one account for admin"});
+//   }
+  
 
   const password = await bcrypt.hash(plainTextPassword, 10);
   const user = new User({

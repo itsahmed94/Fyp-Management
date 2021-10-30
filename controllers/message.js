@@ -4,21 +4,30 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Message = require("../models/message");
 const Chatroom = require("../models/chatroom");
+const ErrorResponse = require("../utils/errorResponse");
 
 
 //create message
 exports.createMessage = AsyncHandler(async (req, res, next) => {
-  const { chatroom, user, message,fileUpload, lastMessageBy, lastMessageAt } = req.body 
+  const { chatroom, user, message,fileUpload, lastMessageBy, lastMessageAt,announcement,year } = req.body 
   const socket = global.socket
   // if ( socket ) console.log(socket)
   const chatRoom = await Chatroom.findById(chatroom);
   if (!chatRoom)
     next(new ErrorResponse(`Chatroom not found by id ${chatroom}`, 404));  
+
+  if (chatRoom.announcement){
+    if (req.user.role !== 'admin'){
+        return next(new ErrorResponse("You are not able to chat in this room", 404));
+    }
+  }
   const messages = new Message({
     chatroom,
     user,
     message,
     fileUpload,
+    announcement,
+    year,
   });
 
   //for single file upload
@@ -60,7 +69,7 @@ exports.getMessages = AsyncHandler(async (req, res, next) => {
   // const messages = await Message.find();
   let user = req.user;
   const { id: chatroom } = req.params;
-  const messages = await Message.find({ chatroom}).populate([{path: 'chatroom',populate:{path:'name', select:'name'},select:'name '},{path: 'user', select: 'fullName'}]);
+  const messages = await Message.find({chatroom}).populate([{path: 'chatroom',populate:{path:'name', select:'name'},select:'name '},{path: 'user', select: 'fullName'}]);
 
   // if(!messages)
   // {

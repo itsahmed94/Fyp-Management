@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require("express");
+const cors = require ("cors")
 const { MongooseConnect } = require("./models/mongoose");
 const app = express();
 const http = require('http')
@@ -13,6 +14,7 @@ const io = new Server(server);
 
 require("dotenv").config();
 app.use(express.json())
+app.use(cors())
 
 //setting view engine 'ejs'
 app.set("view engine", "ejs");
